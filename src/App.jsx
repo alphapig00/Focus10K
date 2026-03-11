@@ -138,7 +138,6 @@ function PrivacyContent() {
 /* ─── Timer helpers ───────────────────────────────────────────────── */
 const fmt = s => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 
-/* Fix 1: Timer with Pomodoro / Custom / Stopwatch modes */
 function TimerView() {
   const [mode, setMode]               = useState('pomodoro');
   const [isRunning, setIsRunning]     = useState(false);
@@ -147,17 +146,69 @@ function TimerView() {
   const [customMins, setCustomMins]   = useState('25');
   const [customSec,  setCustomSec]    = useState('00');
   const [swSecs, setSwSecs]           = useState(0);
+  const [catIdx, setCatIdx]           = useState(0);
+  const [flash, setFlash]             = useState(false);
   const intervalRef                   = useRef(null);
+  const wakeLockRef                   = useRef(null);
+  const prevDoneRef                   = useRef(false);
 
   /* Cleanup on unmount */
-  useEffect(() => () => clearInterval(intervalRef.current), []);
+  useEffect(() => () => {
+    clearInterval(intervalRef.current);
+    wakeLockRef.current?.release().catch(() => {});
+  }, []);
 
+  const cat         = CATEGORIES[catIdx];
   const displaySecs = mode === 'stopwatch' ? swSecs : countdownSecs;
-  const done   = mode !== 'stopwatch' && countdownSecs === 0;
-  const atStart = mode === 'stopwatch' ? swSecs === 0 : countdownSecs === targetSecs;
-  const phaseLabel = done ? 'COMPLETE' : isRunning ? (mode === 'stopwatch' ? 'RUNNING' : 'FOCUS') : 'READY';
+  const done        = mode !== 'stopwatch' && countdownSecs === 0;
+  const atStart     = mode === 'stopwatch' ? swSecs === 0 : countdownSecs === targetSecs;
+  const phaseLabel  = done ? 'COMPLETE' : isRunning ? (mode === 'stopwatch' ? 'RUNNING' : 'FOCUS') : 'READY';
 
-  const stop = () => { clearInterval(intervalRef.current); setIsRunning(false); };
+  /* Side-effects when timer hits 00:00 */
+  useEffect(() => {
+    if (done && !prevDoneRef.current) {
+      releaseWakeLock();
+      playPing();
+      setFlash(true);
+      const t = setTimeout(() => setFlash(false), 2200);
+      return () => clearTimeout(t);
+    }
+    prevDoneRef.current = done;
+  }, [done]);
+
+  const playPing = () => {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.value = 528;
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.4);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 1.4);
+    } catch (_) {}
+  };
+
+  const acquireWakeLock = async () => {
+    try {
+      if ('wakeLock' in navigator)
+        wakeLockRef.current = await navigator.wakeLock.request('screen');
+    } catch (_) {}
+  };
+
+  const releaseWakeLock = () => {
+    wakeLockRef.current?.release().catch(() => {});
+    wakeLockRef.current = null;
+  };
+
+  const stop = () => {
+    clearInterval(intervalRef.current);
+    setIsRunning(false);
+    releaseWakeLock();
+  };
 
   const start = () => {
     if (mode === 'stopwatch') {
@@ -171,15 +222,20 @@ function TimerView() {
       }, 1000);
     }
     setIsRunning(true);
+    acquireWakeLock();
   };
 
   const reset = () => {
     stop();
+    setFlash(false);
+    prevDoneRef.current = false;
     mode === 'stopwatch' ? setSwSecs(0) : setCountdown(targetSecs);
   };
 
   const switchMode = (m) => {
     stop();
+    setFlash(false);
+    prevDoneRef.current = false;
     setMode(m);
     if (m === 'pomodoro') { setTarget(25 * 60); setCountdown(25 * 60); }
     else if (m === 'custom') {
@@ -196,10 +252,10 @@ function TimerView() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-6 px-4">
+    <div className="flex flex-col items-center justify-center h-full px-4">
 
       {/* Mode selector pill */}
-      <div className="flex items-center gap-1 p-1 rounded-full" style={{ background: '#EEEEEE', border: '1px solid #E8E8E8' }}>
+      <div className="flex items-center gap-1 p-1 rounded-full mb-6" style={{ background: '#EEEEEE', border: '1px solid #E8E8E8' }}>
         {[['pomodoro','Pomodoro'], ['custom','Custom'], ['stopwatch','Stopwatch']].map(([m, lbl]) => (
           <button key={m} onClick={() => switchMode(m)}
             className="px-3 py-1 rounded-full transition-all duration-200 focus:outline-none"
@@ -213,58 +269,71 @@ function TimerView() {
         ))}
       </div>
 
-      {/* Custom time inputs — only when not running */}
-      {mode === 'custom' && !isRunning && (
-        <div className="flex items-end gap-3">
-          <div className="flex flex-col items-center gap-1">
-            <input type="number" min="0" max="99" value={customMins}
-              onChange={e => setCustomMins(e.target.value)} onBlur={applyCustom}
-              className="w-16 text-center bg-transparent text-gray-900 text-2xl focus:outline-none"
-              style={{ borderBottom: '1px solid #E8E8E8' }} />
-            <span style={{ color: '#AAAAAA', fontSize: '10px', letterSpacing: '1px' }}>MIN</span>
+      {/* Custom inputs — always occupies same vertical space to prevent layout shift */}
+      <div style={{ height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+        {mode === 'custom' && !isRunning && (
+          <div className="flex items-end gap-3">
+            <div className="flex flex-col items-center gap-1">
+              <input type="number" min="0" max="99" value={customMins}
+                onChange={e => setCustomMins(e.target.value)} onBlur={applyCustom}
+                className="w-16 text-center bg-transparent text-gray-900 text-2xl focus:outline-none"
+                style={{ borderBottom: '1px solid #E8E8E8' }} />
+              <span style={{ color: '#AAAAAA', fontSize: '10px', letterSpacing: '1px' }}>MIN</span>
+            </div>
+            <span className="pb-5 text-2xl" style={{ color: '#BBBBBB' }}>:</span>
+            <div className="flex flex-col items-center gap-1">
+              <input type="number" min="0" max="59" value={customSec}
+                onChange={e => setCustomSec(e.target.value)} onBlur={applyCustom}
+                className="w-16 text-center bg-transparent text-gray-900 text-2xl focus:outline-none"
+                style={{ borderBottom: '1px solid #E8E8E8' }} />
+              <span style={{ color: '#AAAAAA', fontSize: '10px', letterSpacing: '1px' }}>SEC</span>
+            </div>
           </div>
-          <span className="pb-5 text-2xl" style={{ color: '#BBBBBB' }}>:</span>
-          <div className="flex flex-col items-center gap-1">
-            <input type="number" min="0" max="59" value={customSec}
-              onChange={e => setCustomSec(e.target.value)} onBlur={applyCustom}
-              className="w-16 text-center bg-transparent text-gray-900 text-2xl focus:outline-none"
-              style={{ borderBottom: '1px solid #E8E8E8' }} />
-            <span style={{ color: '#AAAAAA', fontSize: '10px', letterSpacing: '1px' }}>SEC</span>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Phase label */}
-      <p className="text-xs tracking-[6px] uppercase" style={{ color: done ? '#111111' : '#64FFDA' }}>
+      <p className="text-xs tracking-[6px] uppercase mb-3" style={{ color: done ? '#111111' : '#64FFDA' }}>
         {phaseLabel}
       </p>
 
-      {/* Big timer digits */}
-      <p className="text-gray-900 select-none"
+      {/* Big timer digits — flash on complete */}
+      <p className={`text-gray-900 select-none${flash ? ' timer-flash' : ''}`}
         style={{ fontSize: '88px', lineHeight: 1, letterSpacing: '-2px', fontWeight: 200, fontVariant: 'tabular-nums' }}>
         {fmt(displaySecs)}
       </p>
 
-      {/* Controls */}
-      {done ? (
-        <div className="flex flex-col items-center gap-4">
-          <p style={{ color: '#64FFDA', fontSize: '13px' }}>Session complete ✓</p>
-          <button onClick={reset} className="focus:outline-none"><ResetIcon /></button>
-        </div>
-      ) : (
-        <div className="flex items-center gap-8">
-          <button onClick={isRunning ? stop : start} className="focus:outline-none">
-            {isRunning ? <PauseIcon /> : <PlayIcon />}
-          </button>
-          {!atStart && (
+      {/* Controls — fixed-height zone so digits never shift */}
+      <div style={{ height: '108px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '10px', marginTop: '4px' }}>
+        {done ? (
+          <>
+            <p style={{ color: '#64FFDA', fontSize: '13px' }}>Session complete ✓</p>
             <button onClick={reset} className="focus:outline-none"><ResetIcon /></button>
-          )}
-        </div>
-      )}
+          </>
+        ) : (
+          <>
+            <div className="flex items-center gap-8">
+              <button onClick={isRunning ? stop : start} className="focus:outline-none">
+                {isRunning ? <PauseIcon /> : <PlayIcon />}
+              </button>
+              {!atStart && (
+                <button onClick={reset} className="focus:outline-none"><ResetIcon /></button>
+              )}
+            </div>
+            {!isRunning && atStart && (
+              <p style={{ color: '#555', fontSize: '13px' }}>Tap to start</p>
+            )}
+          </>
+        )}
+      </div>
 
-      {!isRunning && !done && atStart && (
-        <p style={{ color: '#555', fontSize: '13px' }}>Tap to start</p>
-      )}
+      {/* Category selector */}
+      <button
+        onClick={() => setCatIdx(i => (i + 1) % CATEGORIES.length)}
+        className="mt-5 focus:outline-none"
+        style={{ fontSize: '13px', color: '#888' }}>
+        Focusing on: <span style={{ color: cat.color, fontWeight: 600 }}>{cat.name}</span> ›
+      </button>
     </div>
   );
 }

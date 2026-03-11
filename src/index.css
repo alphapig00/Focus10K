@@ -19,3 +19,9 @@ html, body, #root {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #CCC; border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: #AAA; }
+
+@keyframes timerFlash {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.12; }
+}
+.timer-flash { animation: timerFlash 0.7s ease-in-out 3; }
