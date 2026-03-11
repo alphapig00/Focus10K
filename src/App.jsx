@@ -258,7 +258,7 @@ function TimerView() {
       <div className="flex items-center gap-1 p-1 rounded-full mb-6" style={{ background: '#EEEEEE', border: '1px solid #E8E8E8' }}>
         {[['pomodoro','Pomodoro'], ['custom','Custom'], ['stopwatch','Stopwatch']].map(([m, lbl]) => (
           <button key={m} onClick={() => switchMode(m)}
-            className="px-3 py-1 rounded-full transition-all duration-200 focus:outline-none"
+            className="px-3 py-1 rounded-full transition-all duration-200 focus:outline-none active:scale-95"
             style={{
               background: mode === m ? '#64FFDA' : 'transparent',
               color:      mode === m ? '#0D0D0D' : '#555',
@@ -308,16 +308,16 @@ function TimerView() {
         {done ? (
           <>
             <p style={{ color: '#64FFDA', fontSize: '13px' }}>Session complete ✓</p>
-            <button onClick={reset} className="focus:outline-none"><ResetIcon /></button>
+            <button onClick={reset} className="focus:outline-none transition-all duration-200 hover:opacity-60 hover:rotate-[-30deg] active:scale-90"><ResetIcon /></button>
           </>
         ) : (
           <>
             <div className="flex items-center gap-8">
-              <button onClick={isRunning ? stop : start} className="focus:outline-none">
+              <button onClick={isRunning ? stop : start} className="focus:outline-none transition-transform duration-200 hover:scale-105 active:scale-95">
                 {isRunning ? <PauseIcon /> : <PlayIcon />}
               </button>
               {!atStart && (
-                <button onClick={reset} className="focus:outline-none"><ResetIcon /></button>
+                <button onClick={reset} className="focus:outline-none transition-all duration-200 hover:opacity-60 hover:rotate-[-30deg] active:scale-90"><ResetIcon /></button>
               )}
             </div>
             {!isRunning && atStart && (
@@ -330,7 +330,7 @@ function TimerView() {
       {/* Category selector */}
       <button
         onClick={() => setCatIdx(i => (i + 1) % CATEGORIES.length)}
-        className="mt-5 focus:outline-none"
+        className="mt-5 focus:outline-none transition-all duration-200 hover:opacity-70 active:scale-95"
         style={{ fontSize: '13px', color: '#888' }}>
         Focusing on: <span style={{ color: cat.color, fontWeight: 600 }}>{cat.name}</span> ›
       </button>
@@ -387,11 +387,11 @@ function DashboardView() {
   return (
     <div className="pb-4">
       <div className="flex gap-3 px-4 pt-4">
-        <div className="flex-1 rounded-xl p-4" style={{ background: '#FFFFFF', border: '1px solid #E8E8E8' }}>
+        <div className="flex-1 rounded-xl p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md cursor-default" style={{ background: '#FFFFFF', border: '1px solid #E8E8E8' }}>
           <p className="text-gray-900 font-light" style={{ fontSize: '32px', lineHeight: 1, letterSpacing: '-1px' }}>{TOTAL_HOURS.toLocaleString()}</p>
           <p className="mt-1 text-xs" style={{ color: '#555' }}>hours focused</p>
         </div>
-        <div className="flex-1 rounded-xl p-4" style={{ background: '#FFFFFF', border: '1px solid #E8E8E8' }}>
+        <div className="flex-1 rounded-xl p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md cursor-default" style={{ background: '#FFFFFF', border: '1px solid #E8E8E8' }}>
           <p className="font-light" style={{ fontSize: '32px', lineHeight: 1, letterSpacing: '-1px', color: '#64FFDA' }}>🔥 {STREAK}</p>
           <p className="mt-1 text-xs" style={{ color: '#555' }}>day streak</p>
         </div>
@@ -456,7 +456,7 @@ function DashboardView() {
       <div className="px-4 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
         <div className="flex gap-3" style={{ width: 'max-content' }}>
           {ACHIEVEMENTS.map((a, i) => (
-            <div key={i} className="flex flex-col justify-between rounded-xl p-3 relative overflow-hidden"
+            <div key={i} className="flex flex-col justify-between rounded-xl p-3 relative overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-md cursor-pointer"
               style={{ width: '112px', height: '120px', flexShrink: 0, background: '#FFFFFF', border: `1px solid ${a.unlocked ? 'rgba(0,180,150,0.25)' : '#E8E8E8'}` }}>
               <div>
                 {a.unlocked ? <CheckIcon /> : <span style={{ color: '#BBBBBB', fontSize: '14px' }}>○</span>}
@@ -493,7 +493,7 @@ function SettingsView({ aiCoach, setAiCoach, notifications, setNotifications, on
     <p className="px-4 pt-5 pb-2 text-xs tracking-widest uppercase" style={{ color: '#555' }}>{children}</p>
   );
   const Row = ({ children, last }) => (
-    <div className="flex items-center justify-between px-4 py-3" style={{ borderBottom: last ? 'none' : '1px solid #F0F0F0' }}>
+    <div className="flex items-center justify-between px-4 py-3 transition-colors duration-150 hover:bg-gray-50" style={{ borderBottom: last ? 'none' : '1px solid #F0F0F0' }}>
       {children}
     </div>
   );
@@ -525,11 +525,11 @@ function SettingsView({ aiCoach, setAiCoach, notifications, setNotifications, on
       <div style={{ background: '#FFFFFF', borderRadius: '12px', marginInline: '16px', overflow: 'hidden', border: '1px solid #E8E8E8' }}>
         <Row>
           <span style={{ color: '#111111', fontSize: '15px' }}>About Focus10K</span>
-          <button onClick={onAbout} className="flex items-center gap-1" style={{ color: '#64FFDA', fontSize: '13px' }}>View <ChevronRightIcon /></button>
+          <button onClick={onAbout} className="flex items-center gap-1 transition-all duration-200 hover:opacity-70 active:scale-95" style={{ color: '#64FFDA', fontSize: '13px' }}>View <ChevronRightIcon /></button>
         </Row>
         <Row last>
           <span style={{ color: '#111111', fontSize: '15px' }}>Privacy Policy</span>
-          <button onClick={onPrivacy} className="flex items-center gap-1" style={{ color: '#64FFDA', fontSize: '13px' }}>View <ChevronRightIcon /></button>
+          <button onClick={onPrivacy} className="flex items-center gap-1 transition-all duration-200 hover:opacity-70 active:scale-95" style={{ color: '#64FFDA', fontSize: '13px' }}>View <ChevronRightIcon /></button>
         </Row>
       </div>
       <p className="text-center py-6 text-xs" style={{ color: '#BBBBBB' }}>Focus10K v1.0.0</p>
@@ -555,8 +555,7 @@ function BottomNav({ active, onSelect }) {
         const isActive = active === id;
         return (
           <button key={id} onClick={() => onSelect(id)}
-            className="flex flex-col items-center justify-center gap-1 flex-1 relative transition-opacity focus:outline-none"
-            style={{ opacity: isActive ? 1 : 0.6 }}>
+            className={`flex flex-col items-center justify-center gap-1 flex-1 relative focus:outline-none transition-all duration-200 active:scale-95 ${isActive ? 'opacity-100' : 'opacity-50 hover:opacity-80'}`}>
             {isActive && <div className="absolute top-0 left-1/2 -translate-x-1/2 rounded-b-full" style={{ width: '28px', height: '2px', background: '#64FFDA' }} />}
             <Icon active={isActive} />
             <span style={{ fontSize: '10px', color: isActive ? '#111' : '#AAA', letterSpacing: '0.3px' }}>{label}</span>
@@ -602,7 +601,7 @@ export default function App() {
       <Header activeTab={activeTab} />
 
       {/* Scrollable content inset between header (56px) and ad+nav (114px) */}
-      <div style={{ position: 'absolute', top: '56px', bottom: '114px', left: 0, right: 0, overflowY: 'auto', background: '#F5F5F5' }}>
+      <div key={activeTab} className="tab-enter" style={{ position: 'absolute', top: '56px', bottom: '114px', left: 0, right: 0, overflowY: 'auto', background: '#F5F5F5' }}>
         {activeTab === 'timer'     && <TimerView />}
         {activeTab === 'dashboard' && <DashboardView />}
         {activeTab === 'tasks'     && <TasksView />}
