@@ -2,22 +2,22 @@ import { useState, useEffect, useRef } from 'react';
 
 /* ─── Icons ───────────────────────────────────────────────────────── */
 const TimerIcon = ({ active }) => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#111' : '#AAA'} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#FFFFFF' : '#555555'} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="9" /><polyline points="12 7 12 12 15 15" />
   </svg>
 );
 const DashIcon = ({ active }) => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#111' : '#AAA'} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#FFFFFF' : '#555555'} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <rect x="3" y="12" width="4" height="9" rx="1" /><rect x="10" y="7" width="4" height="14" rx="1" /><rect x="17" y="3" width="4" height="18" rx="1" />
   </svg>
 );
 const TaskIcon = ({ active }) => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#111' : '#AAA'} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#FFFFFF' : '#555555'} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="9 11 12 14 22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
   </svg>
 );
 const GearIcon = ({ active }) => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#111' : '#AAA'} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={active ? '#FFFFFF' : '#555555'} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="3" />
     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
   </svg>
@@ -32,21 +32,21 @@ const XIcon = () => (
     <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
-const PlayIcon = () => (
-  <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+const PlayIcon = ({ color = '#1A1A1A' }) => (
+  <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="10" />
-    <polygon points="10 8 16 12 10 16 10 8" fill="#1A1A1A" stroke="none" />
+    <polygon points="10 8 16 12 10 16 10 8" fill={color} stroke="none" />
   </svg>
 );
-const PauseIcon = () => (
-  <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+const PauseIcon = ({ color = '#1A1A1A' }) => (
+  <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="10" />
     <line x1="10" y1="9" x2="10" y2="15" /><line x1="14" y1="9" x2="14" y2="15" />
   </svg>
 );
 /* Fix 2: Clean, proportioned reset icon — standard undo/refresh path */
 const ResetIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
     <polyline points="3 3 3 8 8 8" />
   </svg>
@@ -54,6 +54,16 @@ const ResetIcon = () => (
 const CheckIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64FFDA" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
+const TrashIcon = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14H6L5 6" /><path d="M10 11v6m4-6v6" /><path d="M9 6V4h6v2" />
+  </svg>
+);
+const PlusIcon = () => (
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+    <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
   </svg>
 );
 
@@ -138,19 +148,136 @@ function PrivacyContent() {
 /* ─── Timer helpers ───────────────────────────────────────────────── */
 const fmt = s => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
 
-function TimerView() {
-  const [mode, setMode]               = useState('pomodoro');
-  const [isRunning, setIsRunning]     = useState(false);
-  const [countdownSecs, setCountdown] = useState(25 * 60);
-  const [targetSecs, setTarget]       = useState(25 * 60);
-  const [customMins, setCustomMins]   = useState('25');
-  const [customSec,  setCustomSec]    = useState('00');
-  const [swSecs, setSwSecs]           = useState(0);
-  const [catIdx, setCatIdx]           = useState(0);
-  const [flash, setFlash]             = useState(false);
-  const intervalRef                   = useRef(null);
-  const wakeLockRef                   = useRef(null);
-  const prevDoneRef                   = useRef(false);
+/* ─── Timer Phase Accents ────────────────────────────────────────── */
+const WORK_ACCENT  = '#64FFDA';   // mint
+const BREAK_ACCENT = '#818CF8';   // lavender
+
+/* ─── Pomodoro Presets ───────────────────────────────────────────── */
+const POMO_PRESETS = {
+  classic: { work: 25 * 60, shortBreak:  5 * 60, longBreak: 15 * 60 },
+  deep:    { work: 50 * 60, shortBreak: 10 * 60, longBreak: 30 * 60 },
+};
+
+/* ─── Timer Categories ───────────────────────────────────────────── */
+const DEFAULT_CATS = [
+  { name: 'Work',    color: '#64FFDA' },
+  { name: 'Study',   color: '#A78BFA' },
+  { name: 'Piano',   color: '#F97316' },
+  { name: 'Gym',     color: '#FB7185' },
+  { name: 'Reading', color: '#FBBF24' },
+  { name: 'Coding',  color: '#60A5FA' },
+  { name: 'Design',  color: '#E879F9' },
+];
+
+// Palette for auto-assigning colors to new categories
+const CAT_COLORS = [
+  '#64FFDA', '#A78BFA', '#F97316', '#FB7185', '#FBBF24', '#60A5FA', '#E879F9',
+  '#34D399', '#F472B6', '#38BDF8', '#FACC15', '#FB923C', '#C084FC', '#4ADE80',
+  '#818CF8', '#F87171', '#2DD4BF', '#FCD34D',
+];
+
+/* ─── Category Management Modal ───────────────────────────────────── */
+function CategoryModal({ isOpen, onClose, categories, setCategories }) {
+  const [input, setInput] = useState('');
+
+  if (!isOpen) return null;
+
+  const usedColors = categories.map(c => c.color);
+  const nextColor  = CAT_COLORS.find(c => !usedColors.includes(c))
+                     ?? CAT_COLORS[categories.length % CAT_COLORS.length];
+
+  const handleAdd = () => {
+    const name = input.trim();
+    if (!name) return;
+    if (categories.some(c => c.name.toLowerCase() === name.toLowerCase())) return;
+    setCategories(prev => [...prev, { name, color: nextColor }]);
+    setInput('');
+  };
+
+  const handleDelete = (idx) => {
+    setCategories(prev => prev.filter((_, i) => i !== idx));
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4"
+      onClick={onClose}>
+
+      {/* Dialog */}
+      <div className="bg-[#111111] border border-white/10 rounded-3xl p-6 w-full max-w-sm shadow-2xl"
+        onClick={e => e.stopPropagation()}>
+
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-medium text-white">Categories</h2>
+          <button onClick={onClose}
+            className="text-gray-500 hover:text-white transition-colors focus:outline-none">
+            <XIcon />
+          </button>
+        </div>
+
+        {/* Add row */}
+        <div className="flex gap-3 mb-6">
+          <input
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleAdd()}
+            placeholder="New category…"
+            className="flex-1 bg-white/5 border border-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder:text-gray-500"
+          />
+          <button onClick={handleAdd}
+            className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold rounded-xl px-6 py-3 transition-colors shadow-[0_0_15px_rgba(6,182,212,0.3)] focus:outline-none active:scale-95">
+            Add
+          </button>
+        </div>
+
+        {/* Category list */}
+        <div className="max-h-72 overflow-y-auto -mx-2 px-2">
+          {categories.map((c, i) => (
+            <div key={c.name}
+              className="flex items-center justify-between p-3 mb-2 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all group">
+              <div className="flex items-center gap-3">
+                <div style={{
+                  width: '8px', height: '8px', borderRadius: '50%',
+                  background: c.color, flexShrink: 0,
+                  boxShadow: `0 0 6px ${c.color}80`,
+                }} />
+                <span className="text-gray-300 group-hover:text-white transition-colors text-sm">{c.name}</span>
+              </div>
+              {categories.length > 1 && (
+                <button onClick={() => handleDelete(i)}
+                  className="text-gray-600 hover:text-red-400 p-2 rounded-lg hover:bg-red-400/10 transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus:outline-none">
+                  <TrashIcon />
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+function TimerView({ categories, setCategories }) {
+  const [mode, setMode]                         = useState('pomodoro');
+  const [phase, setPhase]                       = useState('work');      // 'work' | 'break'
+  const [isRunning, setIsRunning]               = useState(false);
+  const [countdownSecs, setCountdown]           = useState(25 * 60);
+  const [workDuration, setWorkDuration]         = useState(25 * 60);
+  const [breakDuration, setBreakDuration]       = useState(5 * 60);
+  const [customMins, setCustomMins]             = useState('25');
+  const [customSec,  setCustomSec]              = useState('00');
+  const [customBreakMins, setCustomBreakMins]   = useState('5');
+  const [customBreakSec,  setCustomBreakSec]    = useState('00');
+  const [swSecs, setSwSecs]                     = useState(0);
+  const [catIdx, setCatIdx]                     = useState(0);
+  const [catModalOpen, setCatModalOpen]         = useState(false);
+  const [flash, setFlash]                       = useState(false);
+  const [pomPreset, setPomPreset]               = useState('classic');  // 'classic' | 'deep'
+  const [pomSession, setPomSession]             = useState(0);          // work sessions completed (0–4)
+  const intervalRef                             = useRef(null);
+  const wakeLockRef                             = useRef(null);
+  const prevDoneRef                             = useRef(false);
 
   /* Cleanup on unmount */
   useEffect(() => () => {
@@ -158,23 +285,75 @@ function TimerView() {
     wakeLockRef.current?.release().catch(() => {});
   }, []);
 
-  const cat         = CATEGORIES[catIdx];
+  /* Clamp catIdx when categories shrink (e.g. after delete) */
+  useEffect(() => {
+    setCatIdx(prev => prev >= categories.length ? 0 : prev);
+  }, [categories.length]);
+
+  const accent      = phase === 'break' ? BREAK_ACCENT : WORK_ACCENT;
+  const cat         = categories[catIdx] ?? categories[0];
   const displaySecs = mode === 'stopwatch' ? swSecs : countdownSecs;
   const done        = mode !== 'stopwatch' && countdownSecs === 0;
-  const atStart     = mode === 'stopwatch' ? swSecs === 0 : countdownSecs === targetSecs;
-  const phaseLabel  = done ? 'COMPLETE' : isRunning ? (mode === 'stopwatch' ? 'RUNNING' : 'FOCUS') : 'READY';
+  const phaseDur    = phase === 'break' ? breakDuration : workDuration;
+  const atStart     = mode === 'stopwatch' ? swSecs === 0 : countdownSecs === phaseDur;
+  const phaseLabel  = done
+    ? 'COMPLETE'
+    : isRunning
+      ? (mode === 'stopwatch' ? 'RUNNING' : phase === 'break' ? 'REST' : 'FOCUS')
+      : (phase === 'break' ? 'REST' : 'READY');
 
-  /* Side-effects when timer hits 00:00 */
-  useEffect(() => {
-    if (done && !prevDoneRef.current) {
-      releaseWakeLock();
-      playPing();
-      setFlash(true);
-      const t = setTimeout(() => setFlash(false), 2200);
-      return () => clearTimeout(t);
+  /* Pomodoro next-state info text */
+  const pomNextInfo = (() => {
+    if (mode !== 'pomodoro') return null;
+    const p = POMO_PRESETS[pomPreset];
+    if (phase === 'work') {
+      const num    = pomSession + 1;
+      const isLast = pomSession === 3;
+      const mins   = (isLast ? p.longBreak : p.shortBreak) / 60;
+      return `Session ${num} of 4  ·  Next: ${mins}m ${isLast ? 'long break' : 'break'}`;
     }
-    prevDoneRef.current = done;
-  }, [done]);
+    if (pomSession >= 4) return `Long break  ·  Next: Session 1`;
+    return `${p.shortBreak / 60}m break  ·  Next: Session ${pomSession + 1}`;
+  })();
+
+  /* Side-effects when timer hits 00:00 — auto-switch phase after 2.5 s */
+  useEffect(() => {
+    if (!done) { prevDoneRef.current = false; return; }
+    if (prevDoneRef.current) return;
+    prevDoneRef.current = true;
+    releaseWakeLock();
+    playPing();
+    setFlash(true);
+    const flashT = setTimeout(() => setFlash(false), 2200);
+
+    let nextPhase, nextDur;
+    if (mode === 'pomodoro') {
+      if (phase === 'work') {
+        const newSess = pomSession + 1;
+        setPomSession(newSess);
+        const p = POMO_PRESETS[pomPreset];
+        nextDur = newSess >= 4 ? p.longBreak : p.shortBreak;
+        setBreakDuration(nextDur);
+        nextPhase = 'break';
+      } else {
+        if (pomSession >= 4) setPomSession(0);
+        nextPhase = 'work';
+        nextDur = workDuration;
+      }
+    } else {
+      nextPhase = phase === 'work' ? 'break' : 'work';
+      nextDur   = nextPhase === 'break' ? breakDuration : workDuration;
+    }
+
+    const switchT = setTimeout(() => {
+      setFlash(false);
+      setPhase(nextPhase);
+      setCountdown(nextDur);
+      prevDoneRef.current = false;
+      playPing();
+    }, 2500);
+    return () => { clearTimeout(flashT); clearTimeout(switchT); };
+  }, [done]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const playPing = () => {
     try {
@@ -229,111 +408,325 @@ function TimerView() {
     stop();
     setFlash(false);
     prevDoneRef.current = false;
-    mode === 'stopwatch' ? setSwSecs(0) : setCountdown(targetSecs);
+    setPhase('work');
+    if (mode === 'stopwatch') {
+      setSwSecs(0);
+    } else {
+      setCountdown(workDuration);
+      if (mode === 'pomodoro') {
+        setPomSession(0);
+        setBreakDuration(POMO_PRESETS[pomPreset].shortBreak);
+      }
+    }
+  };
+
+  const handlePresetChange = (preset) => {
+    stop();
+    setFlash(false);
+    prevDoneRef.current = false;
+    setPomPreset(preset);
+    setPomSession(0);
+    setPhase('work');
+    const p = POMO_PRESETS[preset];
+    setWorkDuration(p.work);
+    setBreakDuration(p.shortBreak);
+    setCountdown(p.work);
   };
 
   const switchMode = (m) => {
     stop();
     setFlash(false);
     prevDoneRef.current = false;
+    setPhase('work');
     setMode(m);
-    if (m === 'pomodoro') { setTarget(25 * 60); setCountdown(25 * 60); }
-    else if (m === 'custom') {
+    if (m === 'pomodoro') {
+      const p = POMO_PRESETS[pomPreset];
+      setWorkDuration(p.work); setBreakDuration(p.shortBreak);
+      setCountdown(p.work); setPomSession(0);
+    } else if (m === 'custom') {
       const t = Math.max(60, (parseInt(customMins) || 0) * 60 + (parseInt(customSec) || 0));
-      setTarget(t); setCountdown(t);
+      setWorkDuration(t); setCountdown(t);
     } else { setSwSecs(0); }
   };
 
   const applyCustom = () => {
-    const mins = Math.min(99, Math.max(0, parseInt(customMins) || 0));
-    const secs = Math.min(59, Math.max(0, parseInt(customSec)  || 0));
-    const t = Math.max(60, mins * 60 + secs);
-    setTarget(t); setCountdown(t);
+    const wMins = Math.min(99, Math.max(0, parseInt(customMins)      || 0));
+    const wSecs = Math.min(59, Math.max(0, parseInt(customSec)       || 0));
+    const bMins = Math.min(99, Math.max(0, parseInt(customBreakMins) || 0));
+    const bSecs = Math.min(59, Math.max(0, parseInt(customBreakSec)  || 0));
+    const wDur  = Math.max(60, wMins * 60 + wSecs);
+    const bDur  = Math.max(30, bMins * 60 + bSecs);
+    setWorkDuration(wDur);
+    setBreakDuration(bDur);
+    if (phase === 'work') setCountdown(wDur);
+    else setCountdown(bDur);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full px-4">
+    <div className="h-full px-4 pt-4 pb-3"
+      style={{ width: '100%', display: 'grid', gridTemplateRows: 'auto 96px 1fr auto', gridTemplateColumns: 'minmax(0, 1fr)', rowGap: '4px', overflow: 'hidden' }}>
 
-      {/* Mode selector pill */}
-      <div className="flex items-center gap-1 p-1 rounded-full mb-6" style={{ background: '#EEEEEE', border: '1px solid #E8E8E8' }}>
-        {[['pomodoro','Pomodoro'], ['custom','Custom'], ['stopwatch','Stopwatch']].map(([m, lbl]) => (
-          <button key={m} onClick={() => switchMode(m)}
-            className="px-3 py-1 rounded-full transition-all duration-200 focus:outline-none active:scale-95"
-            style={{
-              background: mode === m ? '#64FFDA' : 'transparent',
-              color:      mode === m ? '#0D0D0D' : '#555',
-              fontSize: '11px', fontWeight: mode === m ? 600 : 400, letterSpacing: '0.4px',
+      {/* ── TOP: Mode selector pill ── */}
+      <div className="flex justify-center" style={{ flexShrink: 0 }}>
+        <div className="flex items-center gap-1 p-1 rounded-full"
+          style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' }}>
+          {[['pomodoro','Pomodoro'], ['custom','Custom'], ['stopwatch','Stopwatch']].map(([m, lbl]) => (
+            <button key={m} onClick={() => switchMode(m)}
+              className="px-3 py-1 rounded-full transition-all duration-200 focus:outline-none active:scale-95"
+              style={{
+                background: mode === m ? accent : 'transparent',
+                color:      mode === m ? '#0D0D0D' : '#9CA3AF',
+                fontSize: '11px', fontWeight: mode === m ? 600 : 400, letterSpacing: '0.4px',
+                transition: 'background 0.5s ease, color 0.5s ease',
+              }}>
+              {lbl}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Row 2: Dynamic zone — fixed 80px, same height in all modes ── */}
+      <div style={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', paddingBottom: '24px' }}>
+
+          {/* Pomodoro preset selector — always mounted in pomo mode; hidden via opacity when running */}
+          {mode === 'pomodoro' && (
+            <div style={{
+              display: 'flex', gap: '6px',
+              opacity: isRunning ? 0 : 1,
+              pointerEvents: isRunning ? 'none' : 'auto',
+              transition: 'opacity 0.25s ease',
             }}>
-            {lbl}
-          </button>
-        ))}
-      </div>
+              {[['classic', 'Classic'], ['deep', 'Deep Work']].map(([key, lbl]) => (
+                <button key={key} onClick={() => handlePresetChange(key)}
+                  className="focus:outline-none"
+                  style={{
+                    fontSize: '10px', letterSpacing: '1px', textTransform: 'uppercase',
+                    padding: '3px 10px', borderRadius: '999px',
+                    border: `1px solid ${pomPreset === key ? WORK_ACCENT + '88' : 'rgba(255,255,255,0.15)'}`,
+                    color: pomPreset === key ? WORK_ACCENT : '#AAAAAA',
+                    background: pomPreset === key ? WORK_ACCENT + '14' : 'transparent',
+                    transition: 'all 0.2s ease',
+                  }}>
+                  {lbl}
+                </button>
+              ))}
+            </div>
+          )}
 
-      {/* Custom inputs — always occupies same vertical space to prevent layout shift */}
-      <div style={{ height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-        {mode === 'custom' && !isRunning && (
-          <div className="flex items-end gap-3">
-            <div className="flex flex-col items-center gap-1">
-              <input type="number" min="0" max="99" value={customMins}
-                onChange={e => setCustomMins(e.target.value)} onBlur={applyCustom}
-                className="w-16 text-center bg-transparent text-gray-900 text-2xl focus:outline-none"
-                style={{ borderBottom: '1px solid #E8E8E8' }} />
-              <span style={{ color: '#AAAAAA', fontSize: '10px', letterSpacing: '1px' }}>MIN</span>
+          {/* Custom inputs — always mounted in custom mode; hidden via opacity when running */}
+          {mode === 'custom' && (
+            <div className="flex items-start gap-8"
+              style={{
+                opacity: isRunning ? 0 : 1,
+                pointerEvents: isRunning ? 'none' : 'auto',
+                transition: 'opacity 0.25s ease',
+              }}>
+
+              {/* Work column */}
+              <div className="flex flex-col items-center gap-3">
+                <span style={{ color: WORK_ACCENT, fontSize: '9px', letterSpacing: '2.5px', textTransform: 'uppercase' }}>Work</span>
+                <div className="flex items-end gap-2">
+                  <div className="flex flex-col items-center gap-1">
+                    <input type="number" min="0" max="99" value={customMins}
+                      onChange={e => setCustomMins(e.target.value)} onBlur={applyCustom}
+                      className="w-14 text-center bg-transparent text-gray-100 text-xl focus:outline-none"
+                      style={{ borderBottom: '1px solid rgba(255,255,255,0.15)' }} />
+                    <span style={{ color: '#AAAAAA', fontSize: '9px', letterSpacing: '1px' }}>MIN</span>
+                  </div>
+                  <span className="pb-4 text-xl" style={{ color: '#BBBBBB' }}>:</span>
+                  <div className="flex flex-col items-center gap-1">
+                    <input type="number" min="0" max="59" value={customSec}
+                      onChange={e => setCustomSec(e.target.value)} onBlur={applyCustom}
+                      className="w-14 text-center bg-transparent text-gray-100 text-xl focus:outline-none"
+                      style={{ borderBottom: '1px solid rgba(255,255,255,0.15)' }} />
+                    <span style={{ color: '#AAAAAA', fontSize: '9px', letterSpacing: '1px' }}>SEC</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Break column */}
+              <div className="flex flex-col items-center gap-3">
+                <span style={{ color: BREAK_ACCENT, fontSize: '9px', letterSpacing: '2.5px', textTransform: 'uppercase' }}>Break</span>
+                <div className="flex items-end gap-2">
+                  <div className="flex flex-col items-center gap-1">
+                    <input type="number" min="0" max="99" value={customBreakMins}
+                      onChange={e => setCustomBreakMins(e.target.value)} onBlur={applyCustom}
+                      className="w-14 text-center bg-transparent text-gray-100 text-xl focus:outline-none"
+                      style={{ borderBottom: '1px solid rgba(255,255,255,0.15)' }} />
+                    <span style={{ color: '#AAAAAA', fontSize: '9px', letterSpacing: '1px' }}>MIN</span>
+                  </div>
+                  <span className="pb-4 text-xl" style={{ color: '#BBBBBB' }}>:</span>
+                  <div className="flex flex-col items-center gap-1">
+                    <input type="number" min="0" max="59" value={customBreakSec}
+                      onChange={e => setCustomBreakSec(e.target.value)} onBlur={applyCustom}
+                      className="w-14 text-center bg-transparent text-gray-100 text-xl focus:outline-none"
+                      style={{ borderBottom: '1px solid rgba(255,255,255,0.15)' }} />
+                    <span style={{ color: '#AAAAAA', fontSize: '9px', letterSpacing: '1px' }}>SEC</span>
+                  </div>
+                </div>
+              </div>
+
             </div>
-            <span className="pb-5 text-2xl" style={{ color: '#BBBBBB' }}>:</span>
-            <div className="flex flex-col items-center gap-1">
-              <input type="number" min="0" max="59" value={customSec}
-                onChange={e => setCustomSec(e.target.value)} onBlur={applyCustom}
-                className="w-16 text-center bg-transparent text-gray-900 text-2xl focus:outline-none"
-                style={{ borderBottom: '1px solid #E8E8E8' }} />
-              <span style={{ color: '#AAAAAA', fontSize: '10px', letterSpacing: '1px' }}>SEC</span>
-            </div>
+          )}
+
+      </div>
+      {/* ── End Row 2 ── */}
+
+      {/* ── Row 3: Center zone — 1fr, digits always anchored here ── */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingTop: '8px',
+        gap: '8px',
+      }}>
+
+          {/* Phase label + digits — tight pair */}
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-xs tracking-[6px] uppercase"
+              style={{ color: done ? '#F1F5F9' : accent, transition: 'color 0.5s ease' }}>
+              {phaseLabel}
+            </p>
+            <p className={`select-none${flash ? ' timer-flash' : ''}`}
+              style={{ fontSize: '88px', lineHeight: 1, letterSpacing: '-2px', fontWeight: 200, fontVariant: 'tabular-nums', color: phase === 'break' ? BREAK_ACCENT : '#F1F5F9', transition: 'color 0.5s ease' }}>
+              {fmt(displaySecs)}
+            </p>
           </div>
-        )}
-      </div>
 
-      {/* Phase label */}
-      <p className="text-xs tracking-[6px] uppercase mb-3" style={{ color: done ? '#111111' : '#64FFDA' }}>
-        {phaseLabel}
-      </p>
+          {/* Controls — play is centered via flexbox; reset is absolute so it never shifts play */}
+          <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+            <button
+              onClick={isRunning ? stop : start}
+              className="focus:outline-none transition-transform duration-200 hover:scale-105 active:scale-95">
+              {isRunning ? <PauseIcon color={accent} /> : <PlayIcon color={accent} />}
+            </button>
+            <button
+              onClick={reset}
+              className="focus:outline-none transition-all duration-200 hover:opacity-60 hover:rotate-[-30deg] active:scale-90"
+              style={{
+                position: 'absolute',
+                left: 'calc(50% + 50px)',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                visibility: atStart && !done ? 'hidden' : 'visible',
+              }}>
+              <ResetIcon />
+            </button>
+          </div>
 
-      {/* Big timer digits — flash on complete */}
-      <p className={`text-gray-900 select-none${flash ? ' timer-flash' : ''}`}
-        style={{ fontSize: '88px', lineHeight: 1, letterSpacing: '-2px', fontWeight: 200, fontVariant: 'tabular-nums' }}>
-        {fmt(displaySecs)}
-      </p>
-
-      {/* Controls — fixed-height zone so digits never shift */}
-      <div style={{ height: '108px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '10px', marginTop: '4px' }}>
-        {done ? (
-          <>
-            <p style={{ color: '#64FFDA', fontSize: '13px' }}>Session complete ✓</p>
-            <button onClick={reset} className="focus:outline-none transition-all duration-200 hover:opacity-60 hover:rotate-[-30deg] active:scale-90"><ResetIcon /></button>
-          </>
-        ) : (
-          <>
-            <div className="flex items-center gap-8">
-              <button onClick={isRunning ? stop : start} className="focus:outline-none transition-transform duration-200 hover:scale-105 active:scale-95">
-                {isRunning ? <PauseIcon /> : <PlayIcon />}
-              </button>
-              {!atStart && (
-                <button onClick={reset} className="focus:outline-none transition-all duration-200 hover:opacity-60 hover:rotate-[-30deg] active:scale-90"><ResetIcon /></button>
-              )}
-            </div>
-            {!isRunning && atStart && (
-              <p style={{ color: '#555', fontSize: '13px' }}>Tap to start</p>
+          {/* Status hint / Pomodoro session tracker */}
+          <div style={{ minHeight: '44px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+            {mode === 'pomodoro' ? (
+              <>
+                {/* 4 session dots */}
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  {[0, 1, 2, 3].map(i => {
+                    const isDone   = i < pomSession;
+                    const isActive = i === pomSession && phase === 'work';
+                    return (
+                      <div key={i} className={isActive ? 'pomo-dot-pulse' : ''}
+                        style={{
+                          width: '7px', height: '7px', borderRadius: '50%',
+                          background:  isDone || isActive ? WORK_ACCENT : 'transparent',
+                          border:      `1.5px solid ${isDone || isActive ? WORK_ACCENT : 'rgba(255,255,255,0.2)'}`,
+                          opacity:     !isDone && !isActive ? 0.4 : 1,
+                          transition:  'all 0.4s ease',
+                        }} />
+                    );
+                  })}
+                </div>
+                {/* Next-state info text */}
+                {pomNextInfo && (
+                  <p style={{ fontSize: '10px', color: '#AAAAAA', letterSpacing: '2px', textTransform: 'uppercase', textAlign: 'center' }}>
+                    {pomNextInfo}
+                  </p>
+                )}
+              </>
+            ) : (
+              done
+                ? <p style={{ color: accent, fontSize: '13px', transition: 'color 0.5s ease' }}>Session complete ✓</p>
+                : !isRunning && atStart
+                ? <p style={{ color: '#6B7280', fontSize: '12px', letterSpacing: '0.5px' }}>Tap to start</p>
+                : null
             )}
-          </>
-        )}
+          </div>
+
+      </div>
+      {/* ── End Row 3 ── */}
+
+      {/* ── BOTTOM: Category section ── */}
+      <div style={{ flexShrink: 0, width: '100%', paddingBottom: '2px' }}>
+
+        <p style={{
+          fontSize: '9px', letterSpacing: '3px', textTransform: 'uppercase',
+          color: '#CCCCCC', textAlign: 'center', marginBottom: '10px',
+        }}>
+          Focus On
+        </p>
+
+        {/* Outer: scroll container only — no flex, no justify */}
+        {/* Inner: flex + justify-center with fit-content/min-width trick so:
+              desktop (no overflow) → min-width:100% wins → chips centered
+              mobile  (overflow)    → fit-content wins   → starts at left edge, scrollable */}
+        <div className="scrollbar-none" style={{ overflowX: 'auto', paddingTop: '6px', paddingBottom: '6px' }}>
+        <div style={{ display: 'flex', flexWrap: 'nowrap', gap: '8px', paddingLeft: '4px', paddingRight: '4px', width: 'fit-content', minWidth: '100%', justifyContent: 'center', boxSizing: 'border-box' }}>
+          {(() => {
+            const catLocked = phase === 'work' && !atStart;
+            return categories.map((c, i) => {
+              const isActive   = catIdx === i;
+              const isDisabled = catLocked && !isActive;
+              return (
+                <button
+                  key={c.name}
+                  onClick={() => !catLocked && setCatIdx(i)}
+                  className="flex-shrink-0 focus:outline-none active:opacity-60"
+                  style={{
+                    fontSize: '12px', whiteSpace: 'nowrap', letterSpacing: '0.3px',
+                    padding: '5px 14px', borderRadius: '999px',
+                    fontWeight: 500,
+                    border: '1px solid transparent',
+                    color:       isActive ? c.color                        : '#6B7280',
+                    background:  isActive ? `${c.color}18`                 : 'rgba(255,255,255,0.05)',
+                    borderColor: isActive ? `${c.color}55`                 : 'rgba(255,255,255,0.1)',
+                    boxShadow:   isActive ? `0 0 10px ${c.color}35`        : 'none',
+                    opacity:   isDisabled ? 0.25 : 1,
+                    cursor:    isDisabled ? 'default' : 'pointer',
+                    transition: 'color 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, opacity 0.3s ease',
+                  }}>
+                  {c.name}
+                </button>
+              );
+            });
+          })()}
+
+          {/* ── Add category chip ── */}
+          <button
+            onClick={() => setCatModalOpen(true)}
+            className="flex-shrink-0 focus:outline-none active:opacity-60"
+            style={{
+              display: 'flex', alignItems: 'center', gap: '4px',
+              fontSize: '12px', whiteSpace: 'nowrap', letterSpacing: '0.3px',
+              padding: '5px 12px', borderRadius: '999px',
+              fontWeight: 500, border: '1px dashed rgba(100,255,218,0.35)',
+              color: '#64FFDA', background: 'rgba(100,255,218,0.05)', cursor: 'pointer',
+              transition: 'border-color 0.18s ease, background 0.18s ease',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(100,255,218,0.65)'; e.currentTarget.style.background = 'rgba(100,255,218,0.1)'; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(100,255,218,0.35)'; e.currentTarget.style.background = 'rgba(100,255,218,0.05)'; }}>
+            <PlusIcon />
+          </button>
+        </div>
+        </div>
+
       </div>
 
-      {/* Category selector */}
-      <button
-        onClick={() => setCatIdx(i => (i + 1) % CATEGORIES.length)}
-        className="mt-5 focus:outline-none transition-all duration-200 hover:opacity-70 active:scale-95"
-        style={{ fontSize: '13px', color: '#888' }}>
-        Focusing on: <span style={{ color: cat.color, fontWeight: 600 }}>{cat.name}</span> ›
-      </button>
+      <CategoryModal
+        isOpen={catModalOpen}
+        onClose={() => setCatModalOpen(false)}
+        categories={categories}
+        setCategories={setCategories}
+      />
     </div>
   );
 }
@@ -550,7 +943,7 @@ const TABS = [
 function BottomNav({ active, onSelect }) {
   return (
     <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-2xl flex"
-      style={{ background: '#EEEEEE', borderTop: '1px solid #E8E8E8', height: '64px', zIndex: 40 }}>
+      style={{ background: '#0a0a0a', borderTop: '1px solid rgba(255,255,255,0.07)', height: '64px', zIndex: 40 }}>
       {TABS.map(({ id, label, Icon }) => {
         const isActive = active === id;
         return (
@@ -558,7 +951,7 @@ function BottomNav({ active, onSelect }) {
             className={`flex flex-col items-center justify-center gap-1 flex-1 relative focus:outline-none transition-all duration-200 active:scale-95 ${isActive ? 'opacity-100' : 'opacity-50 hover:opacity-80'}`}>
             {isActive && <div className="absolute top-0 left-1/2 -translate-x-1/2 rounded-b-full" style={{ width: '28px', height: '2px', background: '#64FFDA' }} />}
             <Icon active={isActive} />
-            <span style={{ fontSize: '10px', color: isActive ? '#111' : '#AAA', letterSpacing: '0.3px' }}>{label}</span>
+            <span style={{ fontSize: '10px', color: isActive ? '#FFFFFF' : '#555555', letterSpacing: '0.3px' }}>{label}</span>
           </button>
         );
       })}
@@ -580,8 +973,8 @@ const PAGE_TITLES = { timer: 'Focus', dashboard: 'Dashboard', tasks: 'Tasks', se
 function Header({ activeTab }) {
   return (
     <header className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl flex items-center justify-between px-4 sm:px-6"
-      style={{ height: '56px', background: 'rgba(245,245,245,0.92)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderBottom: '1px solid #F0F0F0', zIndex: 50 }}>
-      <span className="font-semibold text-gray-900" style={{ fontSize: '17px' }}>{PAGE_TITLES[activeTab]}</span>
+      style={{ height: '56px', background: 'rgba(10,10,10,0.85)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.07)', zIndex: 50 }}>
+      <span className="font-semibold text-white" style={{ fontSize: '17px' }}>{PAGE_TITLES[activeTab]}</span>
       <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: '#64FFDA', color: '#0D0D0D', fontSize: '14px', fontWeight: '700' }}>D</div>
     </header>
   );
@@ -595,14 +988,22 @@ export default function App() {
   const [aiCoach,       setAiCoach]       = useState(false);
   const [notifications, setNotifications] = useState(true);
 
+  const [categories, setCategories] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('focus10k_categories')) || DEFAULT_CATS; }
+    catch { return DEFAULT_CATS; }
+  });
+  useEffect(() => {
+    localStorage.setItem('focus10k_categories', JSON.stringify(categories));
+  }, [categories]);
+
   return (
     /* Fix 3: fluid container — max-w-2xl on desktop, full-width on mobile */
-    <div className="relative w-full max-w-2xl mx-auto" style={{ height: '100dvh', background: '#F5F5F5', overflow: 'hidden' }}>
+    <div className="relative w-full max-w-2xl mx-auto" style={{ height: '100dvh', background: '#0a0a0a', overflow: 'hidden' }}>
       <Header activeTab={activeTab} />
 
       {/* Scrollable content inset between header (56px) and ad+nav (114px) */}
-      <div key={activeTab} className="tab-enter" style={{ position: 'absolute', top: '56px', bottom: '114px', left: 0, right: 0, overflowY: 'auto', background: '#F5F5F5' }}>
-        {activeTab === 'timer'     && <TimerView />}
+      <div key={activeTab} className="tab-enter" style={{ position: 'absolute', top: '56px', bottom: '114px', left: 0, right: 0, overflowY: activeTab === 'timer' ? 'hidden' : 'auto', background: '#0a0a0a' }}>
+        {activeTab === 'timer'     && <TimerView categories={categories} setCategories={setCategories} />}
         {activeTab === 'dashboard' && <DashboardView />}
         {activeTab === 'tasks'     && <TasksView />}
         {activeTab === 'settings'  && (

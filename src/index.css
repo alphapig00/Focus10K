@@ -9,6 +9,7 @@
 
 html, body, #root {
   height: 100%;
+  overflow: hidden;
   margin: 0;
   padding: 0;
   background: #F5F5F5;
@@ -31,3 +32,13 @@ html, body, #root {
   to   { opacity: 1; transform: translateY(0); }
 }
 .tab-enter { animation: fadeSlideIn 0.2s ease-out forwards; }
+
+/* Hide scrollbar for category row (all browsers) */
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
+@keyframes pomo-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(100, 255, 218, 0.5); }
+  50%       { box-shadow: 0 0 0 4px rgba(100, 255, 218, 0); }
+}
+.pomo-dot-pulse { animation: pomo-pulse 1.6s ease-in-out infinite; }
